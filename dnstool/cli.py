@@ -21,6 +21,7 @@ class CoreDNS:
 
 class Init(CoreDNS):
     """Handles initialization of the Corefile with ACL for the sector CIDR."""
+
     CORE_FILE = Path("/etc/coredns/Corefile")
 
     @classmethod
@@ -55,10 +56,7 @@ class Init(CoreDNS):
             return
 
         origin = f"$ORIGIN {zone_name}.\n"
-        soa = (
-            f"@   3600 IN SOA ns1.{zone_name}. admin.{zone_name}. (\n"
-            "        1 3600 600 86400 3600\n)\n"
-        )
+        soa = f"@   3600 IN SOA ns1.{zone_name}. admin.{zone_name}. (\n        1 3600 600 86400 3600\n)\n"
 
         ns = f"    IN NS ns1.{zone_name}.\n"
         ns_a = "ns1 IN A 127.0.0.1\n"
@@ -73,19 +71,10 @@ class Init(CoreDNS):
         acl_prefix = "# ACL"
         zone_prefix = "# ZONE"
         # ACL ensures only the hosts inside the sector are allowed to query
-        acl = (
-            "acl {\n"
-            f"        allow net {sector_cidr}\n"
-            "        drop\n"
-            "    }"
-        )
+        acl = f"acl {{\n        allow net {sector_cidr}\n        drop\n    }}"
         # The Zone file provides authoritative responses for all hosts registered to the sector
         # The "fallthrough" allows for recursive queries if it does not match a record in the zone file.
-        zone = (
-            f"file /etc/coredns/zone.db {zone_name} {{\n"
-            "        fallthrough\n"
-            "    }"
-        )
+        zone = f"file /etc/coredns/zone.db {zone_name} {{\n        fallthrough\n    }}"
 
         with cls.CORE_FILE.open("rt") as core_file:
             data = core_file.read()
