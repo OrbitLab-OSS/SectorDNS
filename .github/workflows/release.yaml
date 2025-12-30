@@ -47,12 +47,12 @@ jobs:
         run: pants lint all
       - name: Pants Test
         run: pants test all
-      - name: Build Gateway Appliance
+      - name: Build DNS Appliance
         run: pants run scripts:build
       - uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ steps.version.outputs.version }}
-          name: Sector Gateway ${{ steps.version.outputs.version }}
+          name: Sector DNS ${{ steps.version.outputs.version }}
           files: |
-            scripts/sector-gateway-${{ steps.version.outputs.version }}.tar.gz
-            scripts/sector-gateway-${{ steps.version.outputs.version }}.tar.gz.sha256
+            scripts/sector-dns-${{ steps.version.outputs.version }}.tar.gz
+            scripts/sector-dns-${{ steps.version.outputs.version }}.tar.gz.sha256
