@@ -1,0 +1,14 @@
+. {
+
+    # ACL
+
+    # ZONE
+    
+    forward . /etc/resolv.conf {
+        policy sequential
+        max_concurrent 1000
+    }
+
+    log
+    errors
+}

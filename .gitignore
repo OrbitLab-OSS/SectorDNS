@@ -1,3 +1,9 @@
+# Repo-related
+sector-dns-*.tar.gz
+sector-dns-*.tar.gz.sha256
+.vscode/
+.pants.d/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
